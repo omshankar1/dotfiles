@@ -1,0 +1,158 @@
+Booting Linux from a USB stick/Harddisk with Ubuntu 14.01
+
+
+Booting the corrupt sector:
+After rebooting my machine that (seems) to have lost the boot sector related information, grub check prompt appears. Type the following to boot into linux
+
+grub check> set prefix=(hd0, 1/boot/grub)
+grub check> set root=(hd0, 1
+grub check> insmod normal
+grub check> normal
+
+
+#TMUX upgrade and .tmux.conf
+
+Here are the steps for the "blank" ubuntu - version 14.04 only (if you have some
+                                                                other ubuntu
+                                                                version it might
+                                                                not work):
+```bash
+  sudo apt-get update
+  sudo apt-get install -y python-software-properties software-properties-common
+  sudo add-apt-repository -y ppa:pi-rho/dev
+  sudo apt-get update
+  sudo apt-get install -y tmux=1.9a-1~ppa1~t
+```
+  now if you do tmux -V it should show tmux 1.9a which is a good version for
+  tmux plugins
+  I verified the above steps on a new digitalocean droplet.
+
+  Basically, it's adding the pi-rho/dev repository, updating and then installing
+  tmux from there.
+
+##Powerline for TMUX:
+
+
+[GitHub](https://github.com/tiev/tiev/wiki/Install-Vim---Tmux---Powerline-(Ubuntu-14.04-Trusty))
+
+Install Vim Tmux Powerline (Ubuntu 14.04 Trusty)
+
+   Powerline - Lokaltog/powerline
+   Install plugin
+
+   Install python-pip and git
+
+```bash
+   sudo apt-get install python-pip git
+```
+   Per user:
+
+```bash
+   pip install --user git+git://github.com/Lokaltog/powerline
+```
+   Add ~/.local/bin to $PATH by modifying ~/.profile with favorite editor
+
+   vim ~/.profile
+   and add following lines at the end of it:
+
+```bash
+   if [ -d "$home/.local/bin" ]; then
+       path="$home/.local/bin:$path"
+       fi
+```
+       system wide:
+
+       in terminal run:
+
+```bash
+       su -c 'pip install git+git://github.com/lokaltog/powerline'
+       install fonts for powerline
+```
+
+       fontconfig (recommended)
+
+  per user:
+
+  run the following commands in terminal:
+
+```bash
+  wget
+  https://github.com/lokaltog/powerline/raw/develop/font/powerlinesymbols.otf
+https://github.com/lokaltog/powerline/raw/develop/font/10-powerline-symbols.conf
+mkdir -p ~/.fonts/ && mv powerlinesymbols.otf ~/.fonts/
+fc-cache -vf ~/.fonts
+mkdir -p ~/.config/fontconfig/conf.d/ && mv 10-powerline-symbols.conf
+~/.config/fontconfig/conf.d/
+```
+
+System wide:
+
+Run the following commands:
+
+```bash
+wget https://github.com/Lokaltog/powerline/raw/develop/font/PowerlineSymbols.otf
+https://github.com/Lokaltog/powerline/raw/develop/font/10-powerline-symbols.conf
+sudo mv PowerlineSymbols.otf /usr/share/fonts/
+sudo fc-cache -vf
+sudo mv 10-powerline-symbols.conf /etc/fonts/conf.d/
+```
+
+Patched font:
+
+Not recommended, so refer to powerline documentation
+
+Config powerline for vim and tmux
+
+First fix the terminal to support 256color. Add this line to end of ~/.bashrc
+file:
+
+```bash
+export TERM="screen-256color"
+```
+Vim statusline:
+Add following lines to ~/.vimrc file:
+
+```bash
+set rtp+=/usr/local/lib/python2.7/dist-packages/powerline/bindings/vim/
+" Always show statusline
+set laststatus=2
+```
+
+
+```bash
+" Use 256 colours (Use this setting only if your terminal supports 256 colours)
+set t_Co=256
+```
+
+Tmux statusline:
+Add following lines to your ~/.tmux.conf file:
+
+```bash
+source
+/usr/local/lib/python2.7/dist-packages/powerline/bindings/tmux/powerline.conf
+set-option -g default-terminal "screen-256color"
+```
+Now we has a beautiful statusline for coding enviroment
+
+
+Color highlighting for Python, Java and other scripts
+
+   sentientmachine/erics_vim_syntax_and_color_highlighting
+
+
+Config Vagrant/VM base box
+
+http://aruizca.com/steps-to-create-a-vagrant-base-box-with-ubuntu-14-04-desktop-gui-and-virtualbox/
+
+
+Installation of Ack
+
+OS X / Homebrew
+
+ brew install ack
+
+Debian/Ubuntu
+
+  sudo apt-get install ack-grep; sudo ln -s $(which ack-grep) /usr/local/bin/ack
+
+
